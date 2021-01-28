@@ -7,6 +7,7 @@ class RK {
 	public $data;
 	public $config;
 	public $router;
+	public $request;
 	public $db;
 	
 	public function __construct($path_base=null) {
@@ -21,6 +22,8 @@ class RK {
 		$this->config->set($this->getConfig('default.php'));
 		
 		$this->data->set($this->getConfig('info.ini'));
+		
+		$this->request = $this->getModule('request');
 		
 		$this->router = new Engine\Router;
 		
@@ -120,7 +123,7 @@ class RK {
 	
 	public function getModule($name) {
 		$rk_class = get_called_class();
-		$file = $this->config->path_module . $name . $this->config->ext_class;
+		$file = $this->path->getFilename('module', $name . $this->config->ext_class);
 		$class = 'Module\\' . str_replace($rk_class::NAMESEP, '\\', $name);
 		if (!file_exists($file)) {
 			trigger_error("Module $name not found in \"$file\" ($class)", E_USER_WARNING);
@@ -159,7 +162,7 @@ class RK {
 	
 	
 	public function output() {
-		echo ob_get_clean();
+		return ob_get_clean();
 	}
 	
 }
