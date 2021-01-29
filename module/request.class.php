@@ -6,6 +6,7 @@ use Engine\Registry;
 class Request extends Registry {
 	
 	public function __construct() {
+		$this->request = $_REQUEST;
 		$this->set($_REQUEST);
 		$this->get = $_GET;
 		$this->post = $_POST;
