@@ -96,13 +96,13 @@ class RK {
 		$method = 'action' . ucfirst(array_pop($parts));
 		$name = implode('\\', $parts);
 		$class = 'Controller\\' . $name;
-		$file = $this->path->getFilename('controller', $name . $this->config->ext_class);
-		if (!file_exists($file)) {
-			if ($method == 'actionIndex') trigger_error("Action \"$action\" not found", E_USER_ERROR);
+		$filename = $this->path->getFilename('controller', $name . $this->config->ext_class);
+		if (!file_exists($filename)) {
+			if ($method == 'actionIndex') trigger_error("Action \"$action\" not found in $filename", E_USER_ERROR);
 			$action .= '/index';
-			return $this->run($action.'/index', $data);
+			return $this->run($action, $data);
 		}
-		require_once($file);
+		require_once($filename);
 		$controller = new $class;
 		return $controller->$method($data);
 	}
