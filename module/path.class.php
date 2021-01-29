@@ -46,15 +46,15 @@ class Path {
 	public function getFilename($path_key, $file_name) {
 		if (array_key_exists($path_key, $this->_data)) {
 			foreach ($this->_data[$path_key] as $path) {
-				$file_path = $path . $file_name;
+				$file_path = $this->normalize($path . $file_name);
 				if (file_exists($file_path)) {
-					return $this->normalize($file_path);
+					return $file_path;
 				}
 			}
 			// from $path->base:
-			$file_path = $this->get('base') . $file_name;
+			$file_path = $this->normalize($this->get('base') . $file_name);
 			if (file_exists($file_path)) {
-				return $this->normalize($file_path);
+				return $file_path;
 			}
 		}
 		return false;
